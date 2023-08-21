@@ -23,7 +23,7 @@ export const MainView = () => {
             Genre: { Name: movie.Genre.Name },
             Director: { Name: movie.Director.Name },
             ImagePath: movie.ImagePath,
-            Featured: movie.Featured,
+            Featured: movie.Featured.toString(),
           };
         });
         setMovies(moviesFromApi);
