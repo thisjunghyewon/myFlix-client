@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 
-//code for div that shows movie title and is clickable
 export const MovieCard = ({ movie, onMovieClick }) => {
   return (
     <div
@@ -13,10 +12,12 @@ export const MovieCard = ({ movie, onMovieClick }) => {
   );
 };
 
-// PropTypes conditions for return MovieCard statement in main-view.jsx
+//PropTypes conditions for return MovieCard statement in main-view.jsx
 MovieCard.propTypes = {
   movie: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     Title: PropTypes.string.isRequired,
+    Image: PropTypes.string.isRequired,
   }).isRequired,
   onMovieClick: PropTypes.func.isRequired,
 };
