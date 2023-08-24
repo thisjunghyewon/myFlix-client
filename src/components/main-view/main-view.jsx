@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import { MovieCard } from "../movie-card/movie-card";
-import { MovieView } from "../movie-view/movie-view";
+import { MovieCard } from "../movie-card/movie-card.jsx";
+import { MovieView } from "../movie-view/movie-view.jsx";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
-
-  //creates state changes for selected movies
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
@@ -17,20 +15,23 @@ export const MainView = () => {
           return {
             id: movie._id,
             Title: movie.Title,
-            Description: movie.Description,
             Release: movie.Release,
+            Image: movie.ImagePath,
+            Description: movie.Description,
             Cast: movie.Cast,
-            Genre: { Name: movie.Genre.Name },
-            Director: { Name: movie.Director.Name },
-            ImagePath: movie.ImagePath,
-            Featured: movie.Featured.toString(),
+            Genre: {
+              Name: movie.Genre.Name,
+            },
+            Director: {
+              Name: movie.Director.Name,
+            },
+            Featured: movie.Featured,
           };
         });
         setMovies(moviesFromApi);
       });
   }, []);
 
-  //statement for movies selected to show movie view details and includes code for when clicking the back button to go list of movies
   if (selectedMovie) {
     return (
       <MovieView
@@ -39,17 +40,15 @@ export const MainView = () => {
       />
     );
   }
-  //if there is no movie in the array, the page will say
+
   if (movies.length === 0) {
     return <div>The list is empty!</div>;
   }
-
-  //return statement for movies in the array being displayed and being clickable from MovieCard file
   return (
     <div>
       {movies.map((movie) => (
         <MovieCard
-          key={movie.Title}
+          key={movie.id}
           movie={movie}
           onMovieClick={(newSelectedMovie) => {
             setSelectedMovie(newSelectedMovie);
