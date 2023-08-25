@@ -7,17 +7,24 @@ export const MovieCard = ({ movie, onMovieClick }) => {
         onMovieClick(movie);
       }}
     >
-      {movie.Title}
+      {movie.title}
     </div>
   );
 };
-
-//PropTypes conditions for return MovieCard statement in main-view.jsx
 MovieCard.propTypes = {
   movie: PropTypes.shape({
-    id: PropTypes.string.isRequired,
     Title: PropTypes.string.isRequired,
-    Image: PropTypes.string.isRequired,
+    Director: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+    }).isRequired,
+    Release: PropTypes.string.isRequired,
+    ImagePath: PropTypes.string.isRequired,
+    Cast: PropTypes.string.isRequired,
+    Featured: PropTypes.string,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+    }).isRequired,
+    Description: PropTypes.string.isRequired,
   }).isRequired,
   onMovieClick: PropTypes.func.isRequired,
 };
