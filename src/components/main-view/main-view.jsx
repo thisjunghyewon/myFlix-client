@@ -4,6 +4,7 @@ import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     fetch("https://mymovieflix-3d9c07cffa0d.herokuapp.com/movies")
@@ -25,10 +26,11 @@ export const MainView = () => {
         });
 
         setMovies(moviesFromApi);
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, []);
-
-  const [selectedMovie, setSelectedMovie] = useState(null);
 
   if (selectedMovie) {
     return (
@@ -47,7 +49,7 @@ export const MainView = () => {
     <div>
       {movies.map((movie) => (
         <MovieCard
-          key={movie.title}
+          key={movie.Title}
           movie={movie}
           onMovieClick={(newSelectedMovie) => {
             setSelectedMovie(newSelectedMovie);
