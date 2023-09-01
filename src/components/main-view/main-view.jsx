@@ -1,40 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
 export const MainView = () => {
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      Title: "Silence of the Lambs",
-      Director: "Jonathan Demme",
-      ImageURL:
-        "https://m.media-amazon.com/images/M/MV5BMTMwMzY0ODU0N15BMl5BanBnXkFtZTcwMTU3NDY3Mw@@._V1_FMjpg_UX685_.jpg",
-    },
-    {
-      id: 2,
-      Title: "The Fabelmans",
-      Director: "Steven Spielberg",
-      ImageURL:
-        "https://m.media-amazon.com/images/M/MV5BZDAxN2Y0MjctNjU2OS00ZGJmLTkyNmQtNDE4OGYxYWIwOGQ0XkEyXkFqcGdeQXVyNTk5NTQzNDI@._V1_FMjpg_UX1920_.jpg",
-    },
-    {
-      id: 3,
-      Title: "Schindler's List",
-      Director: "Steven Spielberg",
-      ImageURL:
-        "https://m.media-amazon.com/images/M/MV5BMTc4NTA1OTE4Nl5BMl5BanBnXkFtZTcwODA2MDAxMw@@._V1_FMjpg_UX2048_.jpg",
-    },
-    {
-      id: 4,
-      Title: "Little Women",
-      Director: "Greta Gerwig",
-      ImageURL:
-        "https://m.media-amazon.com/images/M/MV5BODk3ZGZmNmUtYjQ2ZC00ZTJiLThiZTgtYjI2OWNkMDZiODNlXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg",
-    },
-  ]);
-
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  useEffect(() => {
+    fetch("https://mymovieflix-3d9c07cffa0d.herokuapp.com/movies")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const moviesFromApi = data.map((movie) => {
+          return {
+            id: movie._id,
+            Title: movie.Title,
+            Director: movie.Director,
+            Release: movie.Release,
+            ImagePath: movie.ImagePath,
+            Genre: movie.Genre,
+            Description: movie.Description,
+            Cast: movie.Cast,
+            Featured: movie.Featured,
+          };
+        });
+
+        setMovies(moviesFromApi);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   if (selectedMovie) {
     return (
@@ -48,11 +44,12 @@ export const MainView = () => {
   if (movies.length === 0) {
     return <div>The list is empty!</div>;
   }
+
   return (
     <div>
       {movies.map((movie) => (
         <MovieCard
-          key={movie.id}
+          key={movie.Title}
           movie={movie}
           onMovieClick={(newSelectedMovie) => {
             setSelectedMovie(newSelectedMovie);
