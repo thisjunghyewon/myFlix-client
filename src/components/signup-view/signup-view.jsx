@@ -73,7 +73,11 @@ export const SignupView = () => {
           required
         />
       </Form.Group>
-      <Button type="submit" className="mt-1 d-grid gap-2 col-12 mx-auto">
+      <Button
+        type="submit"
+        className="mt-1 d-grid gap-2 col-12 mx-auto"
+        variant="btn"
+      >
         Create new account
       </Button>
     </Form>

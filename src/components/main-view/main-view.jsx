@@ -91,6 +91,7 @@ export const MainView = () => {
             </Col>
           ))}
           <Button
+            variant="btn btn-danger"
             onClick={() => {
               setUser(null);
               setToken(null);
