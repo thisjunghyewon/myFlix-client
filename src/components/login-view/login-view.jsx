@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { Button } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
@@ -13,7 +15,7 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password,
     };
 
-    //when the login request succeeds, they’re taken to the list of books in MainView!
+    //when the login request succeeds, they’re taken to the list of movies in MainView!
     fetch("https://mymovieflix-3d9c07cffa0d.herokuapp.com/login", {
       method: "POST",
       headers: {
@@ -39,27 +41,33 @@ export const LoginView = ({ onLoggedIn }) => {
 
   return (
     //This callback tells the Login API to validate username and password
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
+    <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="formUsername">
+        <Form.Label>Username:</Form.Label>
+        <Form.Control
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          minLength="2"
+          minLength="3"
         />
-      </label>
-      <label>
-        Password:
-        <input
+      </Form.Group>
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+      </Form.Group>
+      <Button
+        className="mt-1 d-grid gap-2 col-12 mx-auto"
+        variant="primary"
+        type="submit"
+      >
+        Log in
+      </Button>
+    </Form>
   );
 };
