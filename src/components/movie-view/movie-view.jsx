@@ -1,7 +1,13 @@
-import "./movie-view.scss";
+import { useParams } from "react-router";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./movie-view.scss";
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+
+  const movie = movies.find((m) => m.id === movieId);
+
   return (
     <div>
       <div>
@@ -35,9 +41,11 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Featured: </span>
         <span>{movie.Featured}</span>
       </div>
-      <Button variant="outline=info" onClick={onBackClick}>
-        Back
-      </Button>
+      <Link to={`/`}>
+        <Button variant="outline=info" onClick={onBackClick}>
+          Back
+        </Button>
+      </Link>
     </div>
   );
 };
