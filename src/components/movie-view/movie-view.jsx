@@ -7,17 +7,17 @@ import "./movie-view.scss";
 export const MovieView = ({ movies, user, token, setUser }) => {
   const { movieId } = useParams();
   const movie = movies.find((m) => m.id === movieId);
-  //?
-  const [isFavorite, setIsFavorite] = useState(false);
+
+  const [isFavorite, setIsFavorite] = useState(true);
 
   useEffect(() => {
-    const isFavorited = user.FavoriteMovies.includes(movieId);
+    const isFavorited = user.Favorite_movies.includes(movieId);
     setIsFavorite(isFavorited);
   }, []);
 
   const addToFavorite = () => {
     fetch(
-      `https://mymovieflix-3d9c07cffa0d.herokuapp.com/users/${user.Username}/${movieId}`,
+      `https://mymovieflix-3d9c07cffa0d.herokuapp.com/users/${user.Username}/movies/${movieId}`,
       {
         method: "PUT",
         headers: {
@@ -29,9 +29,6 @@ export const MovieView = ({ movies, user, token, setUser }) => {
       .then((response) => {
         if (response.ok) {
           return response.json();
-        } else {
-          alert("Somethins is wrong");
-          return false;
         }
       })
       .then((data) => {
@@ -43,7 +40,7 @@ export const MovieView = ({ movies, user, token, setUser }) => {
 
   const removeFavorite = () => {
     fetch(
-      `https://mymovieflix-3d9c07cffa0d.herokuapp.com/users/${user.Username}/${movieId}`,
+      `https://mymovieflix-3d9c07cffa0d.herokuapp.com/users/${user.Username}/movies/${movieId}`,
       {
         method: "DELETE",
         headers: {
