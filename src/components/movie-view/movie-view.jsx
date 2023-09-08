@@ -1,12 +1,71 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
 
-export const MovieView = ({ movies }) => {
+export const MovieView = ({ movies, user, token, setUser }) => {
   const { movieId } = useParams();
-
   const movie = movies.find((m) => m.id === movieId);
+  //?
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const isFavorited = user.FavoriteMovies.includes(movieId);
+    setIsFavorite(isFavorited);
+  }, []);
+
+  const addToFavorite = () => {
+    fetch(
+      `https://mymovieflix-3d9c07cffa0d.herokuapp.com/users/${user.Username}/${movieId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("Somethins is wrong");
+          return false;
+        }
+      })
+      .then((data) => {
+        setIsFavorite(true);
+        setUser(data);
+        localStorage.setItem("user", JSON.stringify(data));
+      });
+  };
+
+  const removeFavorite = () => {
+    fetch(
+      `https://mymovieflix-3d9c07cffa0d.herokuapp.com/users/${user.Username}/${movieId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("Somethins is wrong");
+          return false;
+        }
+      })
+      .then((data) => {
+        setIsFavorite(false);
+        setUser(data);
+        localStorage.setItem("user", JSON.stringify(data));
+      });
+  };
 
   return (
     <div>
@@ -41,10 +100,19 @@ export const MovieView = ({ movies }) => {
         <span>Featured: </span>
         <span>{movie.Featured}</span>
       </div>
-      <Link to={`/`}>
-        <Button variant="outline=info" onClick={onBackClick}>
-          Back
+
+      {isFavorite ? (
+        <Button variant="danger" onClick={removeFavorite}>
+          Remove from Favorite List.
         </Button>
+      ) : (
+        <Button variant="success" onClick={addToFavorite}>
+          Add to Favorite List.
+        </Button>
+      )}
+
+      <Link to={`/`}>
+        <Button variant="outline=info">Back</Button>
       </Link>
     </div>
   );
