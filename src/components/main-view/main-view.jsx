@@ -155,9 +155,9 @@ export const MainView = () => {
                     ) : (
                       movies
                         .filter((movie) =>
-                          movie.title
-                            .toLowerCase()
-                            .includes(filter.toLowerCase())
+                          movie.Title.toLowerCase().includes(
+                            filter.toLowerCase()
+                          )
                         )
                         .map((movie) => (
                           <Col className="mb-5" key={movie.id} md={4}>
