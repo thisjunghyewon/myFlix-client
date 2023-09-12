@@ -5,7 +5,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { ProfileView } from "../profile-view/profile-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Form } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 export const MainView = () => {
@@ -14,6 +14,7 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [filter, setFilter] = useState("");
   const onLoggedOut = () => {
     setUser(null);
     setToken(null);
@@ -52,14 +53,7 @@ export const MainView = () => {
 
   return (
     <BrowserRouter>
-      <NavigationBar
-        user={user}
-        onLoggedOut={() => {
-          setUser(null);
-          setToken(null);
-          localStorage.clear();
-        }}
-      />
+      <NavigationBar user={user} onLoggedOut={onLoggedOut} />
       <Row className="justify-content-md-center">
         <Routes>
           <Route
@@ -104,12 +98,15 @@ export const MainView = () => {
                 ) : movies.length === 0 ? (
                   <Col>The list is empty!</Col>
                 ) : (
-                  <MovieView
-                    movies={movies}
-                    user={user}
-                    token={token}
-                    setUser={setUser}
-                  />
+                  <Col md={8}>
+                    <MovieView
+                      style={{ border: "1px solid green" }}
+                      movies={movies}
+                      user={user}
+                      setUser={setUser}
+                      token={token}
+                    />
+                  </Col>
                 )}
               </>
             }
@@ -142,15 +139,32 @@ export const MainView = () => {
               <>
                 {!user ? (
                   <Navigate to="/login" replace />
-                ) : movies.length === 0 ? (
-                  <Col>The list is empty!</Col>
                 ) : (
                   <>
-                    {movies.map((movie) => (
-                      <Col className="mb-2" key={movie.id} md={6}>
-                        <MovieCard movie={movie} />
-                      </Col>
-                    ))}
+                    <Row className="mt-1 mb-1">
+                      <Form.Control
+                        type="text"
+                        placeholder="Search movies"
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                      />
+                    </Row>
+
+                    {movies.length === 0 ? (
+                      <Col>This list is empty!</Col>
+                    ) : (
+                      movies
+                        .filter((movie) =>
+                          movie.Title.toLowerCase().includes(
+                            filter.toLowerCase()
+                          )
+                        )
+                        .map((movie) => (
+                          <Col className="mb-5" key={movie.id} md={4}>
+                            <MovieCard movie={movie} />
+                          </Col>
+                        ))
+                    )}
                   </>
                 )}
               </>
