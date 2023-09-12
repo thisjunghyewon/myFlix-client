@@ -16,6 +16,7 @@ export const MovieCard = ({ movie }) => {
     </Card>
   );
 };
+
 MovieCard.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
@@ -38,7 +39,7 @@ MovieCard.propTypes = {
 //     Cast: PropTypes.array.isRequired,
 //     Featured: PropTypes.boolean,
 //     Genre: PropTypes.string,
-//     Description: PropTypes.string.isRequired
+//     Description: PropTypes.string.isRequired,
 //   }).isRequired,
-//   onMovieClick: PropTypes.func.isRequired
+//   onMovieClick: PropTypes.func.isRequired,
 // };
