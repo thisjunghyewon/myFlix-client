@@ -27209,7 +27209,7 @@ const MainView = ()=>{
                 return {
                     id: movie._id,
                     Title: movie.Title,
-                    Director: movie.Director,
+                    Director: movie.Director.Name,
                     Release: movie.Release,
                     ImagePath: movie.ImagePath,
                     Genre: movie.Genre,
