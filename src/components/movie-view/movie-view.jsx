@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
+// import { useSelector } from "react-redux";
 
-export const MovieView = ({ movies, user, token, setUser }) => {
+export const MovieView = ({ movies, user, setUser, token }) => {
   const { movieId } = useParams();
   const movie = movies.find((m) => m.id === movieId);
 
@@ -65,38 +66,17 @@ export const MovieView = ({ movies, user, token, setUser }) => {
   };
 
   return (
-    <div>
-      <div>
-        <span>Title: </span>
-        <span>{movie.Title}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.Director.Name}</span>
-      </div>
-      <div>
-        <span>Release: </span>
-        <span>{movie.Release}</span>
-      </div>
-      <div>
-        <img className="w-100 h-100" src={movie.ImagePath} alt="" />
-      </div>
-      <div>
-        <span>Genre: </span>
-        <span>{movie.Genre.Name}</span>
-      </div>
-      <div>
-        <span>Description: </span>
-        <span>{movie.Description}</span>
-      </div>
-      <div>
-        <span>Cast: </span>
-        <span>{movie.Cast}</span>
-      </div>
-      <div>
-        <span>Featured: </span>
-        <span>{movie.Featured}</span>
-      </div>
+    <Card className="w-100 h-100">
+      <Card.Img variant="top" src={movie.ImagePath} alt="Movie image" />
+      <Card.Body>
+        <Card.Title>{movie.Title}</Card.Title>
+        <Card.Text>Director: {movie.Director.Name}</Card.Text>
+        <Card.Text>Release: {movie.Release}</Card.Text>
+        <Card.Text>Genre: {movie.Genre.Name}</Card.Text>
+        <Card.Text>Description: {movie.Description}</Card.Text>
+        <Card.Text>Cast: {movie.Cast}</Card.Text>
+        <Card.Text>Featured: {movie.Featured}</Card.Text>
+      </Card.Body>
 
       {isFavorite ? (
         <Button variant="danger" onClick={removeFavorite}>
@@ -111,6 +91,6 @@ export const MovieView = ({ movies, user, token, setUser }) => {
       <Link to={`/`}>
         <Button variant="outline=info">Back</Button>
       </Link>
-    </div>
+    </Card>
   );
 };

@@ -23,15 +23,15 @@ export const LoginView = ({ onLoggedIn }) => {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json()) //This transforms the response content into a JSON object that your code can use to extract the JWT sent by the myFlix API.
+      .then((response) => response.json())
       .then((data) => {
         console.log("Login response: ", data);
         if (data.user) {
           localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("token", data.token); //localStorage, which allows data storage across browser sessions.
-          onLoggedIn(data.user, data.token); //pass the user and token back to MainView so they can be used in all the subsequent API requests.
+          localStorage.setItem("token", data.token);
+          onLoggedIn(data.user, data.token);
         } else {
-          alert("No such user");
+          alert("No such user found.");
         }
       })
       .catch((e) => {
