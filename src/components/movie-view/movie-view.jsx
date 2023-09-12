@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./movie-view.scss";
 // import { useSelector } from "react-redux";
