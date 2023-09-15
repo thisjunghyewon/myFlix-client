@@ -96,8 +96,7 @@ export const MovieView = ({ movies, user, setUser, token }) => {
       </div>
       <div>
         <span>Featured: </span>
-        <span>{movie.Featured}</span>
-        {Featured ? <p>True</p> : <p>False</p>}
+        <span>{movie.Featured ? "True" : "False"}</span>
       </div>
 
       {isFavorite ? (
